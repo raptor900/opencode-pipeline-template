@@ -1,0 +1,16 @@
+{
+  "schema_version": 2,
+  "project": "",
+  "sprint": 1,
+  "phase": "plan",
+  "attempts": 0,
+  "max_attempts": 3,
+  "plan_path": "plans/current.md",
+  "contract_path": "contracts/sprint-1.md",
+  "report_path": "reports/sprint-1.md",
+  "critique_path": "critique/sprint-1.md",
+  "last_verdict": null,
+  "last_error": null,
+  "last_update": "",
+  "history": []
+}

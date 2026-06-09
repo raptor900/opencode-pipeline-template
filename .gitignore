@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (если проект на JS)
+node_modules/
+dist/
+build/
+*.log
+.env
+.env.local
+
+# Python (если проект на Python)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Сгенерированные отчёты и критика
+reports/
+critique/

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+    h1 { font-size: 24px; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    input[type=text] { flex: 1; padding: 8px; font-size: 14px; }
+    button { padding: 8px 12px; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #eee; }
+    li.done span { text-decoration: line-through; color: #999; }
+    li .delete { margin-left: auto; color: #c00; background: none; border: none; cursor: pointer; font-size: 16px; }
+    .empty { color: #999; font-style: italic; }
+  </style>
+</head>
+<body>
+  <h1>Todo</h1>
+  <div class="input-row">
+    <input type="text" id="new-todo" placeholder="Что нужно сделать?">
+  </div>
+  <ul id="list"></ul>
+  <p id="empty" class="empty" hidden>Нет задач</p>
+
+  <script>
+    const STORAGE_KEY = 'todos';
+    let todos = [];
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        todos = raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        todos = [];
+      }
+    }
+
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    }
+
+    function render() {
+      const list = document.getElementById('list');
+      const empty = document.getElementById('empty');
+      list.innerHTML = '';
+      if (todos.length === 0) {
+        empty.hidden = false;
+        return;
+      }
+      empty.hidden = true;
+      for (const t of todos) {
+        const li = document.createElement('li');
+        if (t.done) li.classList.add('done');
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = t.done;
+        cb.addEventListener('change', () => toggle(t.id));
+        const span = document.createElement('span');
+        span.textContent = t.text;
+        const del = document.createElement('button');
+        del.className = 'delete';
+        del.textContent = '×';
+        del.addEventListener('click', () => remove(t.id));
+        li.appendChild(cb);
+        li.appendChild(span);
+        li.appendChild(del);
+        list.appendChild(li);
+      }
+    }
+
+    function add(text) {
+      todos.push({ id: Date.now() + Math.random(), text, done: false });
+      save();
+      render();
+    }
+
+    function toggle(id) {
+      const t = todos.find(x => x.id === id);
+      if (t) { t.done = !t.done; save(); render(); }
+    }
+
+    function remove(id) {
+      todos = todos.filter(x => x.id !== id);
+      save();
+      render();
+    }
+
+    document.getElementById('new-todo').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target.value.trim()) {
+        add(e.target.value.trim());
+        e.target.value = '';
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

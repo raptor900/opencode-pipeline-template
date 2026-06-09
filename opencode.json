@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "build": {
+      "prompt": "{file:./agents/build.md}",
+      "model": "anthropic/claude-sonnet-4-5",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "write": true,
+        "read": true,
+        "webfetch": true
+      }
+    },
+    "critic": {
+      "prompt": "{file:./agents/critic.md}",
+      "model": "anthropic/claude-sonnet-4-5",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "webfetch": true,
+        "glob": true,
+        "grep": true
+      }
+    },
+    "planner": {
+      "prompt": "{file:./agents/planner.md}",
+      "model": "anthropic/claude-sonnet-4-5",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "write": true,
+        "read": true,
+        "webfetch": true
+      }
+    }
+  },
+  "permission": {
+    "bash": {
+      "pattern": "^(ls|cat|pwd|echo|jq|npm|npx|node|git|grep|find|mkdir|cp|mv|cd|head|tail|wc|sort|uniq|test|\\[\\[|true|false|playwright|chromium|curl)",
+      "action": "allow"
+    }
+  }
+}
